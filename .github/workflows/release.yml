@@ -23,8 +23,8 @@ name: Release build
 # its ccache as an artifact, which build-cache.yml publishes as the new snapshot.
 # The actions are the Node 24 versions, pinned by commit.
 on:
-  # A build on main is started by hand (Run workflow): pushes to main build nothing.
   push:
+    branches: ['**']
     tags: ['v*']
   pull_request:
   workflow_dispatch:
@@ -253,6 +253,7 @@ jobs:
       # (a fork's run cannot sign), and not in a private repository (the plan does not include it).
       - name: Attest the release ZIP
         if: github.event_name != 'pull_request' && !github.event.repository.private
+        continue-on-error: true
         uses: actions/attest@1e69f48acb82d1966a394da916b4c1698aa569d6 # v4.2.2
         with:
           subject-path: dist/EglantinePS5-v*.zip
