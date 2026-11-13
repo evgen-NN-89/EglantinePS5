@@ -35,6 +35,8 @@ public:
             {10200, &PlayReport::RequestImmediateTransmission, "RequestImmediateTransmission"},
             {10300, &PlayReport::GetTransmissionStatus, "GetTransmissionStatus"},
             {10400, &PlayReport::GetSystemSessionId, "GetSystemSessionId"},
+            {10500, &PlayReport::SaveReportGeneric, "SaveReportGeneric"},
+            {10501, &PlayReport::SaveReportGeneric, "SaveReportGenericWithUser"},
             {20100, &PlayReport::SaveSystemReportOld, "SaveSystemReport"},
             {20101, &PlayReport::SaveSystemReportWithUserOld, "SaveSystemReportWithUser"},
             {20102, &PlayReport::SaveSystemReport, "SaveSystemReport"},
@@ -211,6 +213,12 @@ private:
         reporter.SavePlayReport(Core::Reporter::PlayReportType::System, title_id, {data_a, data_x},
                                 std::nullopt, user_id);
 
+        IPC::ResponseBuilder rb{ctx, 2};
+        rb.Push(ResultSuccess);
+    }
+
+    void SaveReportGeneric(HLERequestContext& ctx) {
+        LOG_DEBUG(Service_PREPO, "SaveReportGeneric called, cmd={}", ctx.GetCommand());
         IPC::ResponseBuilder rb{ctx, 2};
         rb.Push(ResultSuccess);
     }
